@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h1>Add Reservation</h1>
+    {% from "includes/_formhelpers.html" import render_field %}
+    <form method="POST">
+        {% for equi in equip %}
+        <div class="form-group">
+            {{ form.hidden_tag()}}
+            {{ form.checkbox()}}
+        </div>
+        {% endfor %}
+        <p><input type="submit" class="btn btn-primary" value="Submit"></p>
+    </form>
+{% endblock %}

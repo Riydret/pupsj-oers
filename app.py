@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators
+from flask_wtf import Form
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators, BooleanField
 from passlib.hash import sha256_crypt
 from functools import wraps
 
@@ -16,7 +17,18 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # Initialize MySql
 mysql = MySQL(app)
 
-# Student Registration Form
+# Checks Session
+def is_logged_in(f):
+    @wraps(f)
+    def wraps(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, **kwargs)
+        else:
+            flash('Unauthorized, Please Log In','danger')
+            return redirect(url_for('login'))
+    return wrap
+
+# Student Regi  stration Form
 class StudentRegisterForm(Form):
     def validate_studentNumber(form,field):
         if len(field.data) > 15 or len(field.data) < 15:
@@ -30,11 +42,39 @@ class StudentRegisterForm(Form):
         validators.EqualTo('confirm', message='Password do not match.')
     ])
     confirm = PasswordField('Confirm Password')
+
+class AddReservationForm(Form):
+    equip = ["equip1","equip2","equip3"]
+    fac = ["fac1","fac2","fac3"]
+    for i in equip:
+        i = BooleanField('Equipments', [validators.DataRequired(), ])
+    for j in fac:
+        j = BooleanField('Facilities', [validators.DataRequired(), ])
     
+    # equipment = BooleanField('Equipments', validators=[DataRequired(), ])
+    # facility = StringField
+@app.route('/newreservation', methods=['POST','GET'])
+def newreservation():
+    form = AddReservationForm(request.form)
+    equip = ["equip1","equip2","equip3"]
+    fac = ["fac1","fac2","fac3"]
+    # if form.validate_on_submit():
+    #     for i in equip:
+    #         return str(form.i.data)
+    #     for j in fac:
+    #         return str(form.j.data)
+    # else:
+    #     return render_template('add_reservation.html',form=form, equip=equip,fac=fac)
+    if request.method == 'POST' and form.validate():
+        for i in equip:
+            i = form.i.data
+        for j in fac:
+            j = form.j.data
+    return render_template('add_reservation.html',form=form, equip=equip,fac=fac)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html',form=form)
 
 @app.route('/about')
 def about():

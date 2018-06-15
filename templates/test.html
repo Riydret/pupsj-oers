@@ -1,0 +1,12 @@
+{% block body %}
+{% from "includes/_formhelpers.html" import render_field %}
+<form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.checkbox() }}
+    <button type="submit">Go!</button>
+</form>
+
+<h1>Form Errors</h1>
+{{ form.errors }}
+
+{% endblock %}
