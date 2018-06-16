@@ -1,13 +1,8 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
 from flask_wtf import Form
-<<<<<<< HEAD
 from wtforms import StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField, IntegerField
 from wtforms.validators import DataRequired, InputRequired
-=======
-from wtforms import StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField
-from wtforms.validators import DataRequired
->>>>>>> bb9edaaeb824ae234e3c7d5685ede618a828e5c5
 from passlib.hash import sha256_crypt
 from functools import wraps
 
@@ -39,18 +34,39 @@ class StudentRegisterForm(Form):
     def validate_studentNumber(form,field):
         if len(field.data) > 15 or len(field.data) < 15:
             raise ValueError('Student Number must be 15 characters long.')
-    studentNumber = StringField('',[],render_kw={"placeholder": "Student Number"})
-    firstName = StringField('', [validators.length(min=1, max=50)],render_kw={"placeholder": "First Name"})
-    lastName = StringField('', [validators.length(min=1, max=50)],render_kw={"placeholder": "Last Name"})
+    studentNumber = StringField('',[],
+        render_kw={
+            "placeholder": "Student Number",
+            "class":"form-control"
+            })
+    firstName = StringField('', [validators.length(min=1, max=50)],
+        render_kw={
+            "placeholder": "First Name",
+            "class":"form-control"
+            })
+    lastName = StringField('', [validators.length(min=1, max=50)],
+        render_kw={
+            "placeholder": "Last Name",
+            "class":"form-control"
+            })
     email = StringField('', [
         validators.length(min=6,max=50),
         validators.email(message='Invalid e-mail')
-    ],render_kw={"placeholder": "E-mail"})
+        ],render_kw={
+            "placeholder": "E-mail",
+            "class":"form-control"
+            })
     password = PasswordField('', [
         validators.DataRequired(),
         validators.EqualTo('confirm', message='Password do not match.')
-    ],render_kw={"placeholder": "Password"})
-    confirm = PasswordField('',render_kw={"placeholder": "Confirm Password"})
+        ],render_kw={
+            "placeholder": "Password",
+            "class":"form-control"})
+    confirm = PasswordField('',
+        render_kw={
+            "placeholder": "Confirm Password",
+            "class":"form-control"
+            })
 
 class AddEquipmentForm(Form):
     equipmentPropertyNumber = StringField('Property Number',[validators.length(min=5, max=50)])
@@ -134,7 +150,7 @@ def about():
 
 @app.route('/register', methods=['GET','POST'])
 def register():
-    form = StudentRegisterForm(request.form)
+    form = StudentRegisterForm()
     if form.validate_on_submit():
         studentNumber = form.studentNumber.data
         firstName = form.firstName.data
