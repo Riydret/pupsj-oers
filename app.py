@@ -1,8 +1,8 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
 from flask_wtf import Form
-from wtforms import  StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField, IntegerField
-from wtforms.validators import DataRequired
+from wtforms import StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField, IntegerField
+from wtforms.validators import DataRequired, InputRequired
 from passlib.hash import sha256_crypt
 from functools import wraps
 
@@ -58,6 +58,7 @@ class AddFacilityForm(Form):
     availability = StringField('Availability',[validators.length(min=2, max=3)])
 
 class ReservationForm(Form):
+    checkbox = BooleanField('Agree?', [validators.DataRequired(), ])
     equip = ["equip1","equip2","equip3"]
     fac = ["fac1","fac2","fac3"]
     for i in equip:
@@ -67,10 +68,10 @@ class ReservationForm(Form):
     res = DateTimeField('From',render_kw={"type": "datetime-local", "id":"datetime"})
     rese = DateTimeField('To',render_kw={"type": "time"})
 
-@app.route('/addfacility', methods=['POST','GET'])
+@app.route('/add-facility', methods=['POST','GET'])
 def addfacility():
     form = AddFacilityForm()
-    if request.method == 'POST' and form.validate():
+    if form.validate_on_submit():
         facilityPropertyNumber = form.facilityPropertyNumber.data
         facilityName = form.facilityName.data
         quantity = form.quantity.data
@@ -85,10 +86,10 @@ def addfacility():
         return redirect(url_for('index'))
     return render_template('addFacility.html', form=form)
 
-@app.route('/addequipment', methods=['POST','GET'])
+@app.route('/add-equipment', methods=['POST','GET'])
 def addEquipment():
     form = AddEquipmentForm()
-    if request.method == 'POST' and form.validate():
+    if form.validate_on_submit():
         equipmentPropertyNumber = form.equipmentPropertyNumber.data
         equipmentName = form.equipmentName.data
         availability = form.availability.data
@@ -115,8 +116,8 @@ def addReservation():
             return str(form.j.data)
         res = form.res.data
         rese = form.rese.data
-    else:
-        return render_template('createReservation.html', form=form,equip=equip,fac=fac)
+        return redirect(url_for('index'))
+    return render_template('createReservation.html', form=form,equip=equip,fac=fac)
 
 @app.route('/')
 def index():
@@ -129,7 +130,7 @@ def about():
 @app.route('/register', methods=['GET','POST'])
 def register():
     form = StudentRegisterForm(request.form)
-    if request.method == 'POST' and form.validate():
+    if form.validate_on_submit():
         studentNumber = form.studentNumber.data
         firstName = form.firstName.data
         lastName = form.lastName.data
