@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
 from flask_wtf import Form
-from wtforms import  StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField
+from wtforms import  StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField, IntegerField
 from wtforms.validators import DataRequired
 from passlib.hash import sha256_crypt
 from functools import wraps
@@ -47,6 +47,16 @@ class StudentRegisterForm(Form):
     ],render_kw={"placeholder": "Password"})
     confirm = PasswordField('',render_kw={"placeholder": "Confirm Password"})
 
+class AddEquipmentForm(Form):
+    equipmentPropertyNumber = StringField('Property Number',[validators.length(min=5, max=50)])
+    equipmentName = StringField('Equipment Name',[validators.length(min=1, max=50)])
+    quantity = IntegerField('Quantity',[validators.NumberRange(message='Not a number value.')])
+
+class AddFacilityForm(Form):
+    facilityPropertyNumber = StringField('Property Number',[validators.length(min=5, max=50)])
+    facilityName = StringField('Equipment Name',[validators.length(min=1, max=50)])
+    availability = StringField('Availability',[validators.length(min=2, max=3)])
+
 class ReservationForm(Form):
     equip = ["equip1","equip2","equip3"]
     fac = ["fac1","fac2","fac3"]
@@ -56,6 +66,42 @@ class ReservationForm(Form):
         j = BooleanField('Facilities', [validators.DataRequired()])
     res = DateTimeField('From',render_kw={"type": "datetime-local", "id":"datetime"})
     rese = DateTimeField('To',render_kw={"type": "time"})
+
+@app.route('/addfacility', methods=['POST','GET'])
+def addfacility():
+    form = AddFacilityForm()
+    if request.method == 'POST' and form.validate():
+        facilityPropertyNumber = form.facilityPropertyNumber.data
+        facilityName = form.facilityName.data
+        quantity = form.quantity.data
+
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO equipment(facilityPropertyNumber,facilityName,quantity) VALUES (%s,%s,%s)", (facilityPropertyNumber,facilityName,quantity))
+        mysql.connection.commit()
+        cur.close()
+
+        flash("Facility Added!","success")
+
+        return redirect(url_for('index'))
+    return render_template('addFacility.html', form=form)
+
+@app.route('/addequipment', methods=['POST','GET'])
+def addEquipment():
+    form = AddEquipmentForm()
+    if request.method == 'POST' and form.validate():
+        equipmentPropertyNumber = form.equipmentPropertyNumber.data
+        equipmentName = form.equipmentName.data
+        availability = form.availability.data
+
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO equipment(equipmentPropertyNumber,equipmentName,availability) VALUES (%s,%s,%s)", (equipmentPropertyNumber,equipmentName,availability))
+        mysql.connection.commit()
+        cur.close()
+
+        flash("Equipment Added!","success")
+
+        return redirect(url_for('index'))
+    return render_template('addEquipment.html', form=form)
 
 @app.route('/newres', methods=['POST','GET'])
 def addReservation():
