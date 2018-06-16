@@ -1,8 +1,11 @@
 {% block body %}
-{% from "includes/_formhelpers.html" import render_field %}
 <form method="post">
-    {{ form.hidden_tag() }}
-    {{ form.checkbox() }}
+    {% for equi in equip %}
+        <div class="form-group">
+            {{ form.hidden_tag()}} 
+            {{ form.checkbox() }} {{equi}}
+        </div>
+    {% endfor %}
     <button type="submit">Go!</button>
 </form>
 

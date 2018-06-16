@@ -1,12 +1,12 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
-from flask_wtf import FlaskForm
-from wtforms import Form, StringField, TextAreaField, PasswordField, validators, BooleanField
+from flask_wtf import Form
+from wtforms import  StringField, TextAreaField, PasswordField, validators, BooleanField
 from wtforms.validators import DataRequired
 from passlib.hash import sha256_crypt
 from functools import wraps
 
-app = Flask(__name__, static_url_path="/img", static_folder="img")
+app = Flask(__name__, static_url_path="/static", static_folder="static")
 
 # MySql Configuration
 app.config['MYSQL_HOST'] = 'localhost'
@@ -47,34 +47,27 @@ class StudentRegisterForm(Form):
     ])
     confirm = PasswordField('Confirm Password')
 
-# class AddReservationForm(FlaskForm):
-#     equip = ["equip1","equip2","equip3"]
-#     fac = ["fac1","fac2","fac3"]
-#     for i in equip:
-#         i = BooleanField('Equipments',  validators=[DataRequired() ])
-#     for j in fac:
-#         j = BooleanField('Facilities', validators=[DataRequired() ])
-    
-#     # equipment = BooleanField('Equipments', validators=[DataRequired(), ])
-#     # facility = StringField
-# @app.route('/newreservation', methods=['POST','GET'])
-# def newreservation():
-#     form = AddReservationForm()
-#     equip = ["equip1","equip2","equip3"]
-#     fac = ["fac1","fac2","fac3"]
-#     if form.validate_on_submit():
-#         for i in equip:
-#             return str(form.i.data)
-#         for j in fac:
-#             return str(form.j.data)
-#         return redirect(url_for('login'))
-#     return render_template('add_reservation.html',form=form,equip=equip,fac=fac)
-#     # if request.method == 'POST' and form.validate():
-#     #     for i in equip:
-#     #         i = form.i.data
-#     #     for j in fac:
-#     #         j = form.j.data
-#     # return render_template('add_reservation.html',form=form, equip=equip,fac=fac)
+class ExampleForm(Form):
+    checkbox = BooleanField('Agree?', [validators.DataRequired(), ])
+    equip = ["equip1","equip2","equip3"]
+    fac = ["fac1","fac2","fac3"]
+    for i in equip:
+        i = BooleanField('Equipments',  [validators.DataRequired()])
+    for j in fac:
+        j = BooleanField('Facilities', [validators.InputRequired()])
+
+@app.route('/newreservation', methods=['POST','GET'])
+def home():
+    form = ExampleForm()
+    equip = ["equip1","equip2","equip3"]
+    fac = ["fac1","fac2","fac3"]
+    if form.validate_on_submit():
+        for i in equip:
+            return str(form.i.data)
+        for j in fac:
+            return str(form.j.data)
+    else:
+        return render_template('add_reservation.html', form=form,equip=equip,fac=fac)
 
 @app.route('/')
 def index():
