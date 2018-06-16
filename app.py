@@ -1,7 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
 from flask_wtf import Form
-from wtforms import  StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField
+from wtforms import StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField
 from wtforms.validators import DataRequired
 from passlib.hash import sha256_crypt
 from functools import wraps
@@ -113,6 +113,8 @@ def login():
             # GET USER
             data = cur.fetchone()
             password = data['password']
+            firstName = data['firstName']
+            lastName = data['lastName']
 
             # COMPARE PASSWORDS
             if sha256_crypt.verify(password_test, password):
