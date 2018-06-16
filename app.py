@@ -1,8 +1,8 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
 from flask_wtf import Form
-from wtforms import  StringField, TextAreaField, PasswordField, validators, BooleanField
-from wtforms.validators import DataRequired
+from wtforms import  StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField
+from wtforms.validators import DataRequired, InputRequired
 from passlib.hash import sha256_crypt
 from functools import wraps
 
@@ -47,18 +47,19 @@ class StudentRegisterForm(Form):
     ])
     confirm = PasswordField('Confirm Password')
 
-class ExampleForm(Form):
-    checkbox = BooleanField('Agree?', [validators.DataRequired(), ])
+class ReservationForm(Form):
     equip = ["equip1","equip2","equip3"]
     fac = ["fac1","fac2","fac3"]
     for i in equip:
         i = BooleanField('Equipments',  [validators.DataRequired()])
     for j in fac:
-        j = BooleanField('Facilities', [validators.InputRequired()])
+        j = BooleanField('Facilities', [validators.DataRequired()])
+    reservationDate = DateTimeField('From', [validators.InputRequired()])
+    reservationDateEnd = DateTimeField('To', [validators.InputRequired()])
 
-@app.route('/newreservation', methods=['POST','GET'])
-def home():
-    form = ExampleForm()
+@app.route('/newres', methods=['POST','GET'])
+def addReservation():
+    form = ReservationForm()
     equip = ["equip1","equip2","equip3"]
     fac = ["fac1","fac2","fac3"]
     if form.validate_on_submit():
@@ -66,8 +67,10 @@ def home():
             return str(form.i.data)
         for j in fac:
             return str(form.j.data)
+        reservationDate = form.reservationDate.data
+        reservationDateEnd = form.reservationDate.data
     else:
-        return render_template('add_reservation.html', form=form,equip=equip,fac=fac)
+        return render_template('createReservation.html', form=form,equip=equip,fac=fac)
 
 @app.route('/')
 def index():
