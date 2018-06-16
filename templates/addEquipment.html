@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-3 col-md-2"></div>
+    <div class="col-lg-6 col-md-8 col-12">
+        <h1>Add Equipment</h1>
+        {% from "includes/_formhelpers.html" import render_field %}
+        <form action="" method="post">
+            <div class="form-group mb-1">
+                {{render_field(form.equipmentPropertyNumber, class_="form-control")}}
+            </div>
+            <div class="form-group mb-1">
+                {{render_field(form.equipmentName, class_="form-control")}}
+            </div>
+            <div class="form-group mb-1">
+                {{render_field(form.quantity, class_="form-control")}}
+            </div>
+            <p><input type="submit" class="btn btn-primary float-right" value="Submit"></p>
+        </form>
+    <div class="col-lg-3 col-md-2"></div>
+</div>
+
+{% endblock %}

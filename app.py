@@ -1,8 +1,13 @@
 from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
 from flask_wtf import Form
+<<<<<<< HEAD
+from wtforms import StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField, IntegerField
+from wtforms.validators import DataRequired, InputRequired
+=======
 from wtforms import StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField
 from wtforms.validators import DataRequired
+>>>>>>> bb9edaaeb824ae234e3c7d5685ede618a828e5c5
 from passlib.hash import sha256_crypt
 from functools import wraps
 
@@ -47,7 +52,17 @@ class StudentRegisterForm(Form):
     ],render_kw={"placeholder": "Password"})
     confirm = PasswordField('',render_kw={"placeholder": "Confirm Password"})
 
-class ExampleForm(Form):
+class AddEquipmentForm(Form):
+    equipmentPropertyNumber = StringField('Property Number',[validators.length(min=5, max=50)])
+    equipmentName = StringField('Equipment Name',[validators.length(min=1, max=50)])
+    quantity = IntegerField('Quantity',[validators.NumberRange(message='Not a number value.')])
+
+class AddFacilityForm(Form):
+    facilityPropertyNumber = StringField('Property Number',[validators.length(min=5, max=50)])
+    facilityName = StringField('Equipment Name',[validators.length(min=1, max=50)])
+    availability = StringField('Availability',[validators.length(min=2, max=3)])
+
+class ReservationForm(Form):
     checkbox = BooleanField('Agree?', [validators.DataRequired(), ])
     equip = ["equip1","equip2","equip3"]
     fac = ["fac1","fac2","fac3"]
@@ -58,9 +73,45 @@ class ExampleForm(Form):
     res = DateTimeField('From',render_kw={"type": "datetime-local", "id":"datetime"})
     rese = DateTimeField('To',render_kw={"type": "time"})
 
-@app.route('/newreservation', methods=['POST','GET'])
-def home():
-    form = ExampleForm()
+@app.route('/add-facility', methods=['POST','GET'])
+def addfacility():
+    form = AddFacilityForm()
+    if form.validate_on_submit():
+        facilityPropertyNumber = form.facilityPropertyNumber.data
+        facilityName = form.facilityName.data
+        quantity = form.quantity.data
+
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO equipment(facilityPropertyNumber,facilityName,quantity) VALUES (%s,%s,%s)", (facilityPropertyNumber,facilityName,quantity))
+        mysql.connection.commit()
+        cur.close()
+
+        flash("Facility Added!","success")
+
+        return redirect(url_for('index'))
+    return render_template('addFacility.html', form=form)
+
+@app.route('/add-equipment', methods=['POST','GET'])
+def addEquipment():
+    form = AddEquipmentForm()
+    if form.validate_on_submit():
+        equipmentPropertyNumber = form.equipmentPropertyNumber.data
+        equipmentName = form.equipmentName.data
+        availability = form.availability.data
+
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO equipment(equipmentPropertyNumber,equipmentName,availability) VALUES (%s,%s,%s)", (equipmentPropertyNumber,equipmentName,availability))
+        mysql.connection.commit()
+        cur.close()
+
+        flash("Equipment Added!","success")
+
+        return redirect(url_for('index'))
+    return render_template('addEquipment.html', form=form)
+
+@app.route('/newres', methods=['POST','GET'])
+def addReservation():
+    form = ReservationForm()
     equip = ["equip1","equip2","equip3"]
     fac = ["fac1","fac2","fac3"]
     if form.validate_on_submit():
@@ -70,8 +121,8 @@ def home():
             return str(form.j.data)
         res = form.res.data
         rese = form.rese.data
-    else:
-        return render_template('add_reservation.html', form=form,equip=equip,fac=fac)
+        return redirect(url_for('index'))
+    return render_template('createReservation.html', form=form,equip=equip,fac=fac)
 
 @app.route('/')
 def index():
@@ -84,7 +135,7 @@ def about():
 @app.route('/register', methods=['GET','POST'])
 def register():
     form = StudentRegisterForm(request.form)
-    if request.method == 'POST' and form.validate():
+    if form.validate_on_submit():
         studentNumber = form.studentNumber.data
         firstName = form.firstName.data
         lastName = form.lastName.data
