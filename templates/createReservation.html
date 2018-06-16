@@ -1,27 +1,30 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h1>Add Reservation</h1>
+    <h1>Reservation</h1>
     {% from "includes/_formhelpers.html" import render_field %}
     <form method="POST">
-        {% for equi in equip %}
-        <div class="form-group">
-            {{ form.hidden_tag()}}
-            {{ form.checkbox() }} {{equi}}
+        <div class="form-row">
+            <div class="form-group col-6">
+            <h3>Equipments</h3>
+            {% for equi in equip %}
+                {{ form.hidden_tag()}}
+                {{ form.checkbox() }} {{equi}}
+            {% endfor %}
+            </div>              
+            <div class="form-group col-6">
+            <h3>Facilities</h3>
+            {% for fa in fac %}
+                {{ form.hidden_tag()}}
+                {{ form.checkbox() }} {{fa}}
+            {% endfor %}
+            </div>   
         </div>
-        {% endfor %}
-        {% for fa in fac %}
         <div class="form-group">
-            {{ form.hidden_tag()}}
-            {{ form.checkbox() }} {{fa}}
+            {{ render_field(form.res, class_= "form-control")}} 
+            {{ render_field(form.rese, class_= "form-control")}}
         </div>
-        {% endfor %}
-        <div class="form-group">
-            {{ render_field(form.reservationDate, class_= "form-control") }}
-        </div>
-        <div class="form-group">
-            {{ render_field(form.reservationDateEnd, class_= "form-control") }}
-        </div>
+        
         <p><input type="submit" class="btn btn-primary" value="Submit"></p>
     </form>
 {% endblock %}

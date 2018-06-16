@@ -2,7 +2,7 @@ from flask import Flask, render_template, flash, redirect, url_for, session, log
 from flask_mysqldb import MySQL
 from flask_wtf import Form
 from wtforms import  StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField
-from wtforms.validators import DataRequired, InputRequired
+from wtforms.validators import DataRequired
 from passlib.hash import sha256_crypt
 from functools import wraps
 
@@ -29,23 +29,23 @@ def is_logged_in(f):
             return redirect(url_for('login'))
     return wrap
 
-# Student Regi  stration Form
+# Student Registration Form
 class StudentRegisterForm(Form):
     def validate_studentNumber(form,field):
         if len(field.data) > 15 or len(field.data) < 15:
             raise ValueError('Student Number must be 15 characters long.')
-    studentNumber = StringField('Student Number ')
-    firstName = StringField('First Name', [validators.length(min=1, max=50)])
-    lastName = StringField('Last Name', [validators.length(min=1, max=50)])
-    email = StringField('Email', [
+    studentNumber = StringField('',[],render_kw={"placeholder": "Student Number"})
+    firstName = StringField('', [validators.length(min=1, max=50)],render_kw={"placeholder": "First Name"})
+    lastName = StringField('', [validators.length(min=1, max=50)],render_kw={"placeholder": "Last Name"})
+    email = StringField('', [
         validators.length(min=6,max=50),
         validators.email(message='Invalid e-mail')
-    ])
-    password = PasswordField('Password', [
+    ],render_kw={"placeholder": "E-mail"})
+    password = PasswordField('', [
         validators.DataRequired(),
         validators.EqualTo('confirm', message='Password do not match.')
-    ])
-    confirm = PasswordField('Confirm Password')
+    ],render_kw={"placeholder": "Password"})
+    confirm = PasswordField('',render_kw={"placeholder": "Confirm Password"})
 
 class ReservationForm(Form):
     equip = ["equip1","equip2","equip3"]
@@ -54,8 +54,8 @@ class ReservationForm(Form):
         i = BooleanField('Equipments',  [validators.DataRequired()])
     for j in fac:
         j = BooleanField('Facilities', [validators.DataRequired()])
-    reservationDate = DateTimeField('From', [validators.InputRequired()])
-    reservationDateEnd = DateTimeField('To', [validators.InputRequired()])
+    res = DateTimeField('From',render_kw={"type": "datetime-local", "id":"datetime"})
+    rese = DateTimeField('To',render_kw={"type": "time"})
 
 @app.route('/newres', methods=['POST','GET'])
 def addReservation():
@@ -67,8 +67,8 @@ def addReservation():
             return str(form.i.data)
         for j in fac:
             return str(form.j.data)
-        reservationDate = form.reservationDate.data
-        reservationDateEnd = form.reservationDate.data
+        res = form.res.data
+        rese = form.rese.data
     else:
         return render_template('createReservation.html', form=form,equip=equip,fac=fac)
 
