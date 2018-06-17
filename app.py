@@ -221,6 +221,10 @@ def login():
 
     return render_template('login.html')
 
+@app.route('/admin')
+def admin():
+    return render_template('admin_layout.html')
+
 @app.route('/logout')
 @is_logged_in
 def logout():
