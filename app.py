@@ -21,7 +21,7 @@ mysql = MySQL(app)
 # Checks Session
 def is_logged_in(f):
     @wraps(f)
-    def wraps(*args, **kwargs):
+    def wrap(*args, **kwargs):
         if 'logged_in' in session:
             return f(*args, **kwargs)
         else:
@@ -220,6 +220,13 @@ def login():
             return render_template('login.html',error=error)
 
     return render_template('login.html')
+
+@app.route('/logout')
+@is_logged_in
+def logout():
+    session.clear()
+    flash('You are now logged out.', 'success')
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.secret_key='secret123'

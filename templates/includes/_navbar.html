@@ -25,6 +25,13 @@
                     <a href="/reports" class="nav-link">Reports</a>
                 </li> -->
             </ul>
+            {% if session.logged_in %}
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">Logout</a>
+                </li>
+            </ul>
+            {% endif %}
         </div>
     </div>
 </nav>
