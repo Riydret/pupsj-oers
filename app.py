@@ -113,17 +113,42 @@ def addfacility():
     if form.validate_on_submit():
         facilityPropertyNumber = form.facilityPropertyNumber.data
         facilityName = form.facilityName.data
-        quantity = form.quantity.data
+        availability = form.availability.data
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO equipment(facilityPropertyNumber,facilityName,quantity) VALUES (%s,%s,%s)", (facilityPropertyNumber,facilityName,quantity))
+        cur.execute("INSERT INTO facility(facilityPropertyNumber,facilityName,availability) VALUES (%s,%s,%s)", (facilityPropertyNumber,facilityName,availability))
         mysql.connection.commit()
         cur.close()
 
         flash("Facility Added!","success")
 
         return redirect(url_for('index'))
-    return render_template('addFacility.html', form=form)
+    return render_template('add_facility.html', form=form)
+
+@app.route('/facility/dashboard')
+def FacilityDashboard():
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM facility")
+    facilities = cur.fetchall()
+
+    if result > 0:
+        return render_template('facilityDashboard.html', facilities=facilities)
+    else:
+        msg = "No Facilities Found."
+        return render_template('facilityDashboard.html', msg=msg)
+
+@app.route('/equipment/dashboard')
+def EquipmentDashboard():
+    cur = mysql.connection.cursor()
+    result = cur.execute("SELECT * FROM equipment")
+    equipments = cur.fetchall()
+
+    if result > 0:
+        return render_template('equipmentDashboard.html', equipments=equipments)
+    else:
+        msg = "No Equipments Found."
+        return render_template('equipmentDashboard.html', msg=msg)
+
 
 @app.route('/add-equipment', methods=['POST','GET'])
 def addEquipment():
@@ -131,17 +156,17 @@ def addEquipment():
     if form.validate_on_submit():
         equipmentPropertyNumber = form.equipmentPropertyNumber.data
         equipmentName = form.equipmentName.data
-        availability = form.availability.data
+        quantity = form.quantity.data
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO equipment(equipmentPropertyNumber,equipmentName,availability) VALUES (%s,%s,%s)", (equipmentPropertyNumber,equipmentName,availability))
+        cur.execute("INSERT INTO equipment(equipmentPropertyNumber,equipmentName,quantity) VALUES (%s,%s,%s)", (equipmentPropertyNumber,equipmentName,quantity))
         mysql.connection.commit()
         cur.close()
 
         flash("Equipment Added!","success")
 
         return redirect(url_for('index'))
-    return render_template('addEquipment.html', form=form)
+    return render_template('add_equipment.html', form=form)
 
 @app.route('/newres', methods=['POST','GET'])
 def addReservation():
@@ -231,6 +256,22 @@ def logout():
     session.clear()
     flash('You are now logged out.', 'success')
     return redirect(url_for('login'))
+
+# @app.route('/delete_equipment/<string:equipmentPropertyNumber>/', methods=['post'])
+# @is_logged_in
+# def delete_article(equipmentPropertyNumber):
+#     # create cursor
+#     cur = mysql.connection.cursor()
+#     # delete
+#     cur.execute("DELETE FROM equipment WHERE equipmentPropertyNumber = %s",[equipmentPropertyNumber])
+#     # commit to database
+#     mysql.connection.commit()
+#     # close connection 
+#     cur.close()
+
+#     flash("Equipment Deleted",'success')
+
+#     return redirect(url_for('equipmentDashboard'))
 
 if __name__ == '__main__':
     app.secret_key='secret123'
