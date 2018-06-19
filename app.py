@@ -1,9 +1,7 @@
-from flask import Flask, render_template, flash, redirect, url_for, session,
-logging, request
+from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
 from flask_mysqldb import MySQL
 from flask_wtf import Form
-from wtforms import StringField, TextAreaField, PasswordField, validators,
-BooleanField, DateTimeField, IntegerField
+from wtforms import StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField, IntegerField
 from wtforms.validators import DataRequired
 from passlib.hash import sha256_crypt
 from functools import wraps
@@ -119,6 +117,7 @@ class ReservationForm(Form):
     rese = DateTimeField('To',render_kw={"type": "time"})
 
 @app.route('/add-facility', methods=['POST','GET'])
+@is_logged_in
 def addfacility():
     form = AddFacilityForm()
     if form.validate_on_submit():
@@ -127,10 +126,7 @@ def addfacility():
         availability = form.availability.data
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO facility(
-            facilityPropertyNumber,
-            facilityName,
-            availability) VALUES (%s,%s,%s)",
+        cur.execute("INSERT INTO facility(facilityPropertyNumber,facilityName,availability) VALUES (%s,%s,%s)",
             (facilityPropertyNumber,facilityName,availability))
         mysql.connection.commit()
         cur.close()
@@ -141,6 +137,7 @@ def addfacility():
     return render_template('add_facility.html', form=form)
 
 @app.route('/facility/dashboard')
+@is_logged_in
 def FacilityDashboard():
     cur = mysql.connection.cursor()
     result = cur.execute("SELECT * FROM facility")
@@ -153,6 +150,7 @@ def FacilityDashboard():
         return render_template('facilityDashboard.html', msg=msg)
 
 @app.route('/equipment/dashboard')
+@is_logged_in
 def EquipmentDashboard():
     cur = mysql.connection.cursor()
     result = cur.execute("SELECT * FROM equipment")
@@ -164,8 +162,10 @@ def EquipmentDashboard():
         msg = "No Equipments Found."
         return render_template('equipmentDashboard.html', msg=msg)
 
+        return render_template('equipmentDashboard.html')
 
 @app.route('/add-equipment', methods=['POST','GET'])
+@is_logged_in
 def addEquipment():
     form = AddEquipmentForm()
     if form.validate_on_submit():
@@ -174,10 +174,8 @@ def addEquipment():
         quantity = form.quantity.data
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO equipment(
-            equipmentPropertyNumber,equipmentName,quantity)
-            VALUES (%s,%s,%s)",
-            (equipmentPropertyNumber,equipmentName,quantity))
+        cur.execute("INSERT INTO equipment(equipmentPropertyNumber,equipmentName,quantity) VALUES (%s,%s,%s)",
+        (equipmentPropertyNumber,equipmentName,quantity))
         mysql.connection.commit()
         cur.close()
 
@@ -187,6 +185,7 @@ def addEquipment():
     return render_template('add_equipment.html', form=form)
 
 @app.route('/newres', methods=['POST','GET'])
+@is_logged_in
 def addReservation():
     form = ReservationForm()
     equip = ["equip1","equip2","equip3"]
@@ -221,9 +220,7 @@ def register():
         password = sha256_crypt.encrypt(str(form.password.data))
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO student(
-            studentNumber,firstName,lastName,email,password)
-            VALUES (%s,%s,%s,%s,%s)",
+        cur.execute("INSERT INTO student(studentNumber,firstName,lastName,email,password)VALUES (%s,%s,%s,%s,%s)",
             (studentNumber,firstName,lastName,email,password))
         mysql.connection.commit()
         cur.close()
@@ -280,21 +277,23 @@ def logout():
     flash('You are now logged out.', 'success')
     return redirect(url_for('login'))
 
-# @app.route('/delete_equipment/<string:equipmentPropertyNumber>/', methods=['post'])
-# @is_logged_in
-# def delete_article(equipmentPropertyNumber):
-#     # create cursor
-#     cur = mysql.connection.cursor()
-#     # delete
-#     cur.execute("DELETE FROM equipment WHERE equipmentPropertyNumber = %s",[equipmentPropertyNumber])
-#     # commit to database
-#     mysql.connection.commit()
-#     # close connection
-#     cur.close()
+# Delete
+@app.route('/delete_equipment/<string:equipmentPropertyNumber>', methods=['POST'])
+@is_logged_in
+def delete_equipment(equipmentPropertyNumber):
+    # create cursor
+    cur = mysql.connection.cursor()
+    # delete
+    cur.execute("DELETE FROM equipment WHERE equipmentPropertyNumber = %s", [equipmentPropertyNumber])
+    # commit to database
+    mysql.connection.commit()
+    # close connection
+    cur.close()
 
-#     flash("Equipment Deleted",'success')
+    flash("Equipment Deleted",'success')
 
-#     return redirect(url_for('equipmentDashboard'))
+    return redirect(url_for('EquipmentDashboard'))
+
 
 if __name__ == '__main__':
     app.secret_key='secret123'
