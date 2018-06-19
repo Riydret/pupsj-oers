@@ -1,7 +1,9 @@
-from flask import Flask, render_template, flash, redirect, url_for, session, logging, request
+from flask import Flask, render_template, flash, redirect, url_for, session,
+logging, request
 from flask_mysqldb import MySQL
 from flask_wtf import Form
-from wtforms import StringField, TextAreaField, PasswordField, validators, BooleanField, DateTimeField, IntegerField
+from wtforms import StringField, TextAreaField, PasswordField, validators,
+BooleanField, DateTimeField, IntegerField
 from wtforms.validators import DataRequired
 from passlib.hash import sha256_crypt
 from functools import wraps
@@ -69,29 +71,35 @@ class StudentRegisterForm(Form):
             "class": "form-control"})
 
 class AddEquipmentForm(Form):
-    equipmentPropertyNumber = StringField('Property Number',[validators.length(min=5, max=50)],
+    equipmentPropertyNumber = StringField('Property Number',
+        [validators.length(min=5, max=50)],
         render_kw={
             "class": "form-control"
             })
-    equipmentName = StringField('Equipment Name',[validators.length(min=1, max=50)], 
+    equipmentName = StringField('Equipment Name',
+        [validators.length(min=1, max=50)],
         render_kw={
             "class": "form-control"
         })
-    quantity = IntegerField('Quantity',[validators.NumberRange(message='Not a number value.')],
+    quantity = IntegerField('Quantity',
+        [validators.NumberRange(message='Not a number value.')],
         render_kw={
             "class": "form-control"
         })
 
 class AddFacilityForm(Form):
-    facilityPropertyNumber = StringField('Property Number',[validators.length(min=5, max=50)],
+    facilityPropertyNumber = StringField('Property Number',
+        [validators.length(min=5, max=50)],
         render_kw={
             "class": "form-control"
         })
-    facilityName = StringField('Equipment Name',[validators.length(min=1, max=50)],
+    facilityName = StringField('Equipment Name',
+        [validators.length(min=1, max=50)],
         render_kw={
             "class": "form-control"
         })
-    availability = StringField('Availability',[validators.length(min=2, max=3)],
+    availability = StringField('Availability',
+        [validators.length(min=2, max=3)],
         render_kw={
             "class": "form-control"
         })
@@ -104,7 +112,10 @@ class ReservationForm(Form):
         i = BooleanField('Equipments',  [validators.DataRequired()])
     for j in fac:
         j = BooleanField('Facilities', [validators.DataRequired()])
-    res = DateTimeField('From',render_kw={"type": "datetime-local", "id":"datetime"})
+    res = DateTimeField('From',
+        render_kw={"type": "datetime-local",
+                    "id":"datetime"
+                    })
     rese = DateTimeField('To',render_kw={"type": "time"})
 
 @app.route('/add-facility', methods=['POST','GET'])
@@ -116,7 +127,11 @@ def addfacility():
         availability = form.availability.data
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO facility(facilityPropertyNumber,facilityName,availability) VALUES (%s,%s,%s)", (facilityPropertyNumber,facilityName,availability))
+        cur.execute("INSERT INTO facility(
+            facilityPropertyNumber,
+            facilityName,
+            availability) VALUES (%s,%s,%s)",
+            (facilityPropertyNumber,facilityName,availability))
         mysql.connection.commit()
         cur.close()
 
@@ -159,7 +174,10 @@ def addEquipment():
         quantity = form.quantity.data
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO equipment(equipmentPropertyNumber,equipmentName,quantity) VALUES (%s,%s,%s)", (equipmentPropertyNumber,equipmentName,quantity))
+        cur.execute("INSERT INTO equipment(
+            equipmentPropertyNumber,equipmentName,quantity)
+            VALUES (%s,%s,%s)",
+            (equipmentPropertyNumber,equipmentName,quantity))
         mysql.connection.commit()
         cur.close()
 
@@ -181,7 +199,8 @@ def addReservation():
         res = form.res.data
         rese = form.rese.data
         return redirect(url_for('index'))
-    return render_template('createReservation.html', form=form,equip=equip,fac=fac)
+    return render_template('createReservation.html',
+        form=form,equip=equip,fac=fac)
 
 @app.route('/')
 def index():
@@ -202,7 +221,10 @@ def register():
         password = sha256_crypt.encrypt(str(form.password.data))
 
         cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO student(studentNumber,firstName,lastName,email,password) VALUES (%s,%s,%s,%s,%s)", (studentNumber,firstName,lastName,email,password))
+        cur.execute("INSERT INTO student(
+            studentNumber,firstName,lastName,email,password)
+            VALUES (%s,%s,%s,%s,%s)",
+            (studentNumber,firstName,lastName,email,password))
         mysql.connection.commit()
         cur.close()
 
@@ -218,7 +240,8 @@ def login():
         password_test = request.form['password']
 
         cur = mysql.connection.cursor()
-        result = cur.execute('SELECT * FROM student WHERE studentNumber = %s',[studentNumber])
+        result = cur.execute('SELECT * FROM student WHERE studentNumber = %s',
+            [studentNumber])
         if result > 0:
             # GET USER
             data = cur.fetchone()
@@ -266,7 +289,7 @@ def logout():
 #     cur.execute("DELETE FROM equipment WHERE equipmentPropertyNumber = %s",[equipmentPropertyNumber])
 #     # commit to database
 #     mysql.connection.commit()
-#     # close connection 
+#     # close connection
 #     cur.close()
 
 #     flash("Equipment Deleted",'success')
