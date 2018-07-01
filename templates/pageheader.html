@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"  >
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+
+body {
+        margin: 0;
+        padding: 0;
+
+ }
+
+.navigationBar{
+    background-color: white;
+    font-family: californian fb;
+    min-height: 55px;
+    font-size: 40px;
+    padding-top: 10px;
+
+ }
+
+ .navigationBar a{
+ 	text-decoration: none;
+ 	color: maroon;
+ }
+
+ .navigationBar2{
+ 	background-color: rgb(128,0,0);
+ 	min-height: 50px;
+
+ }
+
+ .navigationBar3{
+ 	background-color: rgb(70,0,0);
+ 	min-height: 45px;
+
+ }
+
+ .dropDown{
+ 	 margin-top: 5px;
+ 	 margin-bottom: 5px;
+ 	 display: inline-block;
+
+ }
+
+.Buttons{
+    background-color: inherit;
+    border: none;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 23px;
+    font-family: Georgia;
+    cursor: pointer;
+    width: 18vw;
+
+
+}
+
+.Buttons1{
+    background-color: inherit;
+    float: left;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    font-family: Georgia;
+    cursor: pointer;
+    width: 18vw;
+
+}
+
+.ButtonsHover1:hover{
+	  -webkit-transition-duration: 0.2s; /* Safari */
+      transition-duration: 0.2s;
+	border-bottom: 2px lightgray solid;
+}
+
+ .dropDownContent{
+ 	display: none;
+    position: absolute;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    width: 18vw;
+    z-index: 1;
+    border-bottom: 1px rgba(0,0,0,0.2) solid;
+    border-right: 1px rgba(0,0,0,0.2) solid;
+    border-left:1px rgba(0,0,0,0.2) solid;
+ }
+
+ .dropDownContent a {
+    float: none;
+    font-size: 18px;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropDownContent a:hover{
+	-webkit-transition-duration: 0.2s; /* Safari */
+      transition-duration: 0.2s;
+	color: gold;
+	background-color: maroon;
+}
+
+.dropDown:hover .dropDownContent {
+	-webkit-transition-duration: 0.9s; /* Safari */
+      transition-duration: 0.9s;
+     display: block;
+     border-top: 4px gold solid;
+}
+
+.Logo{
+    position: absolute;
+    border-radius: 1000px;
+    right: 0;
+    left: 43.7%;
+    top: 65px;
+    bottom: 0;
+    background-color: white;
+    border: 2px maroon solid;
+    height: 13.1vw;
+    width:  13.1vw;
+}
+
+@media screen and (max-width: 950px), sreen\0{
+
+.navigationBar{
+    font-size: 4vw;
+    min-height: 45px;
+ }
+
+ .Buttons{
+ 	font-size: 18px;
+ }
+
+.Buttons1{
+ 	font-size: 13px;
+ }
+
+.navigationBar3{
+	min-height: 35px;
+}
+
+}
+
+@media screen and (max-width: 650px), sreen\0{
+	.navigationBar{
+    font-size: 4.5vw;
+    min-height: 40px;
+ }
+
+ .Buttons{
+ 	font-size: 14px;
+ }
+
+.Buttons1{
+ 	font-size: 9px;
+ }
+
+ .dropDownContent a{
+ 	font-size: 12px;
+ }
+
+ .navigationBar3{
+	min-height: 30px;
+}
+}
+footer {
+    background-color: maroon;
+    padding: 15px;
+    text-align: center;
+    color: white;
+
+}
+
+</style>
+</head>
+
+<body background="static/2017.jpg">
+
+
+	<div class="navigationBar">
+		<center>
+		<a href="PUP-San-Juan.php">Polytechnic University of the Philippines San Juan</a>
+		</center>
+	</div>
+	<div class="navigationBar2">
+
+				<a href="PUP-San-Juan.php"><img src="static/Logo.png" class="Logo"></a>
+
+
+
+		<div class = "dropDown" style="margin-left: 5%;">
+			<button class="Buttons ButtonsHover">Our Story</button>
+			<div class = "dropDownContent">
+				<a href="History.php">History</a>
+				<a href="MissionVision.php">Mission Vision</a>
+				<a href="PUPHymn.php">PUP Hymn</a>
+				<a href="PUPLogo.php">PUP Logo</a>
+			</div>
+		</div>
+
+
+		<div class = "dropDown" style="margin-left: 2%;">
+			<button class="Buttons ButtonsHover">Admissions</button>
+			<div class = "dropDownContent">
+				<a href="AdmissionOverview.php">Admission Overview</a>
+				<a href="GraduationRequirements.php">Graduation Requirements</a>
+				<a href="TenureAndDismissal.php">Tenure And Dismissal</a>
+				<a href="Programs.php">Programs Offered</a>
+			</div>
+		</div>
+
+		<div class = "dropDown" style="float: right; margin-right: 5%;">
+			<button class="Buttons ButtonsHover">Articles</button>
+			<div class = "dropDownContent">
+				<a href="ViewAllNews.php">News</a>
+				<a href="ViewAllEvents.php">Calendar & Events</a>
+				<a href="ViewAllAnnouncements.php">Announcements</a>
+				<a href="https://drive.google.com/file/d/0B1BuDAuN0r8SbmFEU1RJUDFYU1E/view">Citizen's Charter</a>
+			</div>
+		</div>
+
+		<div class = "dropDown" style="float: right; margin-right: 2%">
+			<button class="Buttons ButtonsHover">Students</button>
+			<div class = "dropDownContent">
+				<a href="https://www.pup.edu.ph/studentservices/">Student Services</a>
+				<a href="Organizations.php">Organizations</a>
+				<a href="https://drive.google.com/file/d/0B1BuDAuN0r8SX1BWX2NSN3FURzg/view">Student Handbook</a>
+				<a href="StudentCouncil.php">Student Council</a>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="navigationBar3">
+		<button class="Buttons1 ButtonsHover1"  style="margin-left: 5%; float: left;">Services</button>
+		<a href="https://www.pup.edu.ph/academic/undergrad.aspx"><button class="Buttons1 ButtonsHover1" style="margin-left: 2%;">All Programs</button></a>
+		<a href="https://www.pup.edu.ph/alumni/"><button class="Buttons1 ButtonsHover1" style="margin-right: 5%; float: right;">Alumni</button></a>
+		<a href="Faculty.php"><button class="Buttons1 ButtonsHover1" style="margin-right: 2%; float: right;">Faculty</button></a>
+
+	</div>
+
+<!-- <br><br><br>
+
+  <div class="container-fluid">
+    <div class="col-sm-2">
+      <div style="background-color: grey; float: left; " class="jumbotron text-center">
+        <h1>MENU</h1>
+        <div>
+         <a href="#" style="color: maroon;" > Home</a>
+        </div>
+        <div>
+         <a href="#" style="color: maroon;">About</a>
+        </div>
+        <div>
+         <a href="#" style="color: maroon;">Reservation</a>
+        </div>
+        <div>
+         <a href="#" style="color: maroon;">Developer</a>
+        </div>
+      </div>
+     </div>
+    </div>
+<div class="row">
+  <div  class="col-12">
+  <div class="">
+    <div class="container">
+      <div style="background-color: grey; "  class="jumbotron text-center">
+      <h1 class="display-3">Welcome</h1>
+      <p>This is the Online Reservation System for Equipment and Facilities of PUP San Juan.</p>
+      <p>
+        {% if session.logged_in == NULL %}
+        <a style="background-color:tomato; border:tomato" class="btn btn-primary btn-lg" href="/register">Register</a>
+        <a style="background-color:maroon; border:maroon"class="btn btn-success btn-lg" href="/login">Login</a> {% else %}
+        <a class="btn btn-primary btn-lg" href="/newres">Make Reservation</a>
+        <a class="btn btn-success btn-lg" href="/logout">Logout</a> {% endif %}
+      </p>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+</body>
+
+</hmtl>

@@ -1,27 +1,306 @@
-{% extends 'layout.html' %} {% block body %}
-<h1>Dashboard
-  <small>
-    Welcome {{session.lastName}}, {{session.firstName}}
-  </small>
-  <a href="/add-equipment" class="btn btn-success btn-lg float-right">Add Equipment</a>
-</h1>
-<!-- <a href="/add_article" class="btn btn-success">Add Article</a> -->
-<hr>
-<table class="table table-striped">
-  <tr>
-    <th>Property Number</th>
-    <th>Name</th>
-    <th>Availability</th>
-    <th></th>
-    <th></th>
-  </tr>
-  {% for facility in facilities %}
-  <tr>
-    <td>{{facility.facilityPropertyNumber}}</td>
-    <td>{{facility.facilityName}}</td>
-    <td>{{facility.availability}}</td>
-    <td><a href="edit_article/{{facility.facilityPropertyNumber}}" class="btn btn-primary float-right">Edit</a></td>
-  </tr>
-  {% endfor%}
-</table>
-{% endblock %}
+
+
+
+
+
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../../../favicon.ico">
+
+  <title>Admin PUP-SJ</title>
+  <!-- Bootstrap core CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+  <!-- Custom styles for this template -->
+  <style>
+
+    body {
+            margin: 0;
+            padding: 0;
+
+     }
+
+    .navigationBar{
+        background-color: white;
+        font-family: californian fb;
+        min-height: 55px;
+        font-size: 40px;
+        padding-top: 10px;
+
+     }
+
+     .navigationBar a{
+     	text-decoration: none;
+     	color: maroon;
+     }
+
+     .navigationBar2{
+     	background-color: rgb(128,0,0);
+     	min-height: 50px;
+
+     }
+
+     .navigationBar3{
+     	background-color: rgb(70,0,0);
+     	min-height: 45px;
+
+     }
+
+     .dropDown{
+     	 margin-top: 5px;
+     	 margin-bottom: 5px;
+     	 display: inline-block;
+
+     }
+
+    .Buttons{
+        background-color: inherit;
+        border: none;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 23px;
+        font-family: Georgia;
+        cursor: pointer;
+        width: 18vw;
+
+
+    }
+
+    .Buttons1{
+        background-color: inherit;
+        float: left;
+        border: none;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 18px;
+        font-family: Georgia;
+        cursor: pointer;
+        width: 18vw;
+
+    }
+
+    .ButtonsHover1:hover{
+    	  -webkit-transition-duration: 0.2s; /* Safari */
+          transition-duration: 0.2s;
+    	border-bottom: 2px lightgray solid;
+    }
+
+     .dropDownContent{
+     	display: none;
+        position: absolute;
+        background-color: white;
+        color: black;
+        text-decoration: none;
+        width: 18vw;
+        z-index: 1;
+        border-bottom: 1px rgba(0,0,0,0.2) solid;
+        border-right: 1px rgba(0,0,0,0.2) solid;
+        border-left:1px rgba(0,0,0,0.2) solid;
+     }
+
+     .dropDownContent a {
+        float: none;
+        font-size: 18px;
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+    }
+
+    .dropDownContent a:hover{
+    	-webkit-transition-duration: 0.2s; /* Safari */
+          transition-duration: 0.2s;
+    	color: gold;
+    	background-color: maroon;
+    }
+
+    .dropDown:hover .dropDownContent {
+    	-webkit-transition-duration: 0.9s; /* Safari */
+          transition-duration: 0.9s;
+         display: block;
+         border-top: 4px gold solid;
+    }
+
+    .Logo{
+        position: absolute;
+        border-radius: 1000px;
+        right: 0;
+        left: 43.7%;
+        top: 65px;
+        bottom: 0;
+        background-color: white;
+        border: 2px maroon solid;
+        height: 13.1vw;
+        width:  13.1vw;
+    }
+
+    @media screen and (max-width: 950px), sreen\0{
+
+    .navigationBar{
+        font-size: 4vw;
+        min-height: 45px;
+     }
+
+     .Buttons{
+     	font-size: 18px;
+     }
+
+    .Buttons1{
+     	font-size: 13px;
+     }
+
+    .navigationBar3{
+    	min-height: 35px;
+    }
+
+    }
+
+    @media screen and (max-width: 650px), sreen\0{
+    	.navigationBar{
+        font-size: 4.5vw;
+        min-height: 40px;
+     }
+
+     .Buttons{
+     	font-size: 14px;
+     }
+
+    .Buttons1{
+     	font-size: 9px;
+     }
+
+     .dropDownContent a{
+     	font-size: 12px;
+     }
+
+     .navigationBar3{
+    	min-height: 30px;
+    }
+    }
+    footer {
+        background-color: maroon;
+        padding: 10px;
+        text-align: center;
+        color: white;
+
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    {% include 'includes/_pageheader.html'%}
+  </header>
+  <br><br><br>
+<div class="container">
+  <div class="row">
+    <div class="jumbotron col-lg-4" style="background-color:maroon">
+      <h1 class="h2"style="color: white">Menu <div style="width: 310px; height: 2px; background-color: white; margin: 6px 0;"></div></h1>
+      <div>
+       <a href="/admin" style="color: white;"> Home</a>
+      </div>
+      <div>
+       <a href="#" style="color: white;">Reservation</a>
+      </div>
+      <div>
+       <a href="/admin/facility" style="color: white;">Facilities</a>
+      </div>
+      <div>
+       <a href="/admin/equipment" style="color: white;">Equipments</a>
+      </div>
+      <div>
+       <a href="/admin/dev" style="color: white;">Developer</a>
+      </div>
+      <div>
+       <a href="/about" style="color: white;">About</a>
+      </div>
+    </div>
+<div class="jumbotron col-lg-8">
+  <main role="main" class="col-5 ml-sm-auto col-lg-12 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1>
+        <small>
+          Welcome {{session.lastName}}, {{session.firstName}}
+        </small>
+
+      </h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group mr-2">
+          <button style="color: black; border: black" class="btn btn-sm btn-outline-secondary">Share</button>
+          <button style="color: black; border: black" class="btn btn-sm btn-outline-secondary">Export</button>
+        </div>
+        <button style="color: black; border: black" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                  <span data-feather="calendar"></span>
+                  This week
+                </button>
+      </div>
+    </div>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <!-- <a href="/add_article" class="btn btn-success">Add Article</a> -->
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th>Property Number</th>
+      <th>Name</th>
+      <th>Availability</th>
+      <th></th>
+      <th></th>
+    </tr>
+    {% for facility in facilities %}
+    <tr>
+      <td>{{facility.facilityPropertyNumber}}</td>
+      <td>{{facility.facilityName}}</td>
+      <td>{{facility.availability}}</td>
+      <td><a href="edit_article/{{facility.facilityPropertyNumber}}" class="btn btn-primary float-right">Edit</a></td>
+    </tr>
+    {% endfor%}
+  </table>
+</div>
+<a href="/add-equipment" class="btn btn-success btn-lg float-right">Add Facilities</a>
+
+    <!-- <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+
+
+        </main> -->
+    </div>
+  </div>
+</div>
+
+<br><br>
+    <footer>
+      <p style="text-align: left; padding: 10px;">Administrator: <a href="/admin">Admin</a><p>
+    </footer>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+    <!-- Icons -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script>
+      feather.replace()
+    </script>
+
+    <!-- Graphs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+
+</body>
+
+</html>

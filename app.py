@@ -270,6 +270,43 @@ def login():
 def admin():
     return render_template('admin_layout.html')
 
+@app.route('/main')
+def main1():
+    return render_template('main.html')
+
+@app.route('/pageh')
+def page():
+    return render_template('pageheader.html')
+
+
+@app.route('/admin/newres', methods=['POST','GET'])
+def addReservationadmin():
+    form = ReservationForm()
+    equip = ["equip1","equip2","equip3"]
+    fac = ["fac1","fac2","fac3"]
+    if form.validate_on_submit():
+        for i in equip:
+            return str(form.i.data)
+        for j in fac:
+            return str(form.j.data)
+        res = form.res.data
+        rese = form.rese.data
+        return redirect(url_for('index'))
+    return render_template('createReservation.html',
+        form=form,equip=equip,fac=fac)
+
+@app.route('/admin/equipment')
+def equipmentd():
+    return render_template('equipmentDashboard.html')
+
+@app.route('/admin/dev')
+def dev():
+    return render_template('developers.html')
+
+@app.route('/admin/facility')
+def facilityd():
+    return render_template('facilityDashboard.html')
+
 @app.route('/logout')
 @is_logged_in
 def logout():
