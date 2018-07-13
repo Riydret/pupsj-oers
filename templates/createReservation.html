@@ -312,7 +312,7 @@
     }
     footer {
         background-color: maroon;
-        padding: 15px;
+        padding: 10px;
         text-align: center;
         color: white;
 
@@ -324,20 +324,49 @@
   <header>
     {% include 'includes/_pageheader.html'%}
   </header>
-  <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+  <br><br>
+<div class="container">
+  <div class="row">
+
+    <div class="jumbotron col-lg-3" style="background-color:maroon">
+      <h1 class="h2"style="color: white">Menu <div style="width: 220px; height: 2px; background-color: white; margin: 6px 0;"></div></h1>
+      <div>
+       <a href="/new" style="color: white;"> Home</a>
+      </div>
+      <div>
+       <a href="admin/newres" style="color: white;">Reservation</a>
+      </div>
+      <div>
+       <a href="#" style="color: white;">Facilities</a>
+      </div>
+      <div>
+       <a href="#" style="color: white;">Equipments</a>
+      </div>
+      <div>
+       <a href="#" style="color: white;">Developer</a>
+      </div>
+      <div>
+       <a href="#" style="color: white;">About</a>
+      </div>
+    </div>
+
+    <div class="jumbotron col-lg-9">
+  <main role="main" class="col-5 ml-sm-auto col-lg-12 px-4">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1>Reservation</h1> {% from "includes/_formhelpers.html" import render_field %}
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
-          <button style="color:white; border: white" class="btn btn-sm btn-outline-secondary">Share</button>
-          <button style="color:white; border: white" class="btn btn-sm btn-outline-secondary">Export</button>
+          <button style="color: black; border: black" class="btn btn-sm btn-outline-secondary">Share</button>
+          <button style="color: black; border: black" class="btn btn-sm btn-outline-secondary">Export</button>
         </div>
-        <button style="color:white; border: white" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+        <button style="color: black; border: black" class="btn btn-sm btn-outline-secondary dropdown-toggle">
                   <span data-feather="calendar"></span>
                   This week
                 </button>
       </div>
     </div>
+
+<div class="content-section">
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 
   <form method="POST">
@@ -355,7 +384,8 @@
 
     <p><input type="submit" class="btn btn-primary" value="Submit"></p>
   </form>
-
+</div>
+</div>
 </div>
 
     <!-- <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
@@ -365,6 +395,10 @@
         </main> -->
     </div>
     </div>
+<br><br>
+<footer>
+  <p style="text-align: left; padding: 10px;">Administrator: <a href="/admin">Admin</a><p>
+</footer>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

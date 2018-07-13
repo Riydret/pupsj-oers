@@ -1,16 +1,19 @@
 {% extends 'layout.html' %} {% block body %}
 <div class="jumbotron text-center">
-  <div class="container">
+  <div class="container" >
     <h1 class="display-3">Welcome</h1>
     <p>This is the Online Reservation System for Equipment and Facilities of PUP San Juan.</p>
     <p>
       {% if session.logged_in == NULL %}
-      <a style="background-color:tomato; border:tomato" class="btn btn-primary btn-lg" href="/register">Register</a>
-      <a style="background-color:grey; border:grey"class="btn btn-success btn-lg" href="/login">Login</a> {% else %}
+      <a style="background-color: mediumseagreen; border:mediumseagreen" class="btn btn-primary btn-lg" href="/register">Register</a>
+      <a style="background-color: dodgerblue; border:dodgerblue"class="btn btn-success btn-lg" href="/login">Login</a>
+      {% else %}
       <a class="btn btn-primary btn-lg" href="/newres">Make Reservation</a>
-      <a class="btn btn-success btn-lg" href="/logout">Logout</a> {% endif %}
+      <a class="btn btn-success btn-lg" href="/logout">Logout</a>
+      {% endif %}
     </p>
   </div>
 </div>
+<br><br>
 
 {% endblock %}

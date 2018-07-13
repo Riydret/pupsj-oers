@@ -253,7 +253,7 @@ def login():
                 session['firstName'] = firstName
                 session['lastName'] = lastName
 
-                flash("You are now Logged in","success")
+                flash("You are now Logged in ","success")
                 ## Might Change the directory for the return statement below
                 return redirect(url_for('index'))
             else:
@@ -277,6 +277,21 @@ def main1():
 @app.route('/pageh')
 def page():
     return render_template('pageheader.html')
+
+@app.route('/mpage')
+def mainpager():
+    return render_template('mainpage.html')
+
+@app.route('/admin_login')
+def adminlogin():
+    return render_template('admin_login.html')
+
+@app.route('/devs')
+def Developer():
+    return render_template('developers.html')
+
+
+
 
 
 @app.route('/admin/newres', methods=['POST','GET'])
