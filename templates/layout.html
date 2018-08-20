@@ -5,131 +5,523 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-  <title>PUP-SJ</title>
-  <link rel="icon" type="image/png" href="static/Logo.png"/>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+    crossorigin="anonymous">
+
+  <!-- Time picker -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/timepicker@1.11.12/jquery.timepicker.min.css">
+
+
+
+  <link rel="icon" type="image/png" href="/static/Logo.png" />
+
+  <!-- <link rel="stylesheet" href="/static/style.css"> -->
+  <title>OFERS | Polytechnic University of the Philippines - San Juan Campus</title>
+
 </head>
 <style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
 
-    body
-    {
-      background-repeat: no-repeat;
-      background-size: 1380px 700px;
+  .navigationBar {
+    background-image: '/static/2017.jpg';
+    font-family: californian fb;
+    min-height: 55px;
+    font-size: 40px;
+    padding-top: 10px;
+
+  }
+
+  .navigationBar a {
+    text-decoration: none;
+    color: maroon;
+  }
+
+  .navigationBar2 {
+    background-color: rgb(128, 0, 0);
+    min-height: 50px;
+
+  }
+
+  .navigationBar3 {
+    background-color: rgb(70, 0, 0);
+    min-height: 45px;
+
+  }
+
+  .dropDown {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
+
+  }
+
+  .Buttons {
+    background-color: inherit;
+    border: none;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 23px;
+    font-family: Georgia;
+    cursor: pointer;
+    width: 18vw;
+
+
+  }
+
+  .Buttons1 {
+    background-color: inherit;
+    /* float: left; */
+    border: none;
+    color: white;
+    padding: 9px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    font-family: Georgia;
+    cursor: pointer;
+    width: 18vw;
+
+  }
+
+  .ButtonsHover1:hover {
+    -webkit-transition-duration: 0.2s;
+    /* Safari */
+    transition-duration: 0.2s;
+    border-bottom: 2px lightgray solid;
+  }
+
+  .dropDownContent {
+    display: none;
+    position: absolute;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    width: 18vw;
+    z-index: 1;
+    border-bottom: 1px rgba(0, 0, 0, 0.2) solid;
+    border-right: 1px rgba(0, 0, 0, 0.2) solid;
+    border-left: 1px rgba(0, 0, 0, 0.2) solid;
+  }
+
+  .dropDownContent a {
+    float: none;
+    font-size: 18px;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+  }
+
+  .dropDownContent a:hover {
+    -webkit-transition-duration: 0.2s;
+    /* Safari */
+    transition-duration: 0.2s;
+    color: gold;
+    background-color: maroon;
+  }
+
+  .dropDown:hover .dropDownContent {
+    -webkit-transition-duration: 0.9s;
+    /* Safari */
+    transition-duration: 0.9s;
+    display: block;
+    border-top: 4px gold solid;
+  }
+
+  .Logo {
+    position: absolute;
+    border-radius: 1000px;
+    right: 0;
+    left: 43.7%;
+    top: 65px;
+    bottom: 0;
+    background-color: white;
+    border: 2px maroon solid;
+    height: 13.1vw;
+    width: 13.1vw;
+  }
+
+  @media screen and (max-width: 950px),
+  sreen\0 {
+
+    .navigationBar {
+      font-size: 4vw;
+      min-height: 45px;
     }
 
-    .headerContainer {
-        position: fixed;
-        height: 90px;
-        width: 100%;
-        background-color: maroon;
-        z-index: 1;
-        }
-        .Logo
-        {
-            border-radius: 1200px;
-            background-color: white;
-            border: 5px maroon solid;
+    .Buttons {
+      font-size: 18px;
+    }
 
-        }
-        .header
-        {
-          position: absolute;
-          bottom: 10px;
-          width: 100%
-        }
-        a:link {
-            text-decoration: none;
-        }
+    .Buttons1 {
+      font-size: 13px;
+    }
 
-        a:visited {
-            text-decoration: none;
-        }
+    .navigationBar3 {
+      min-height: 35px;
+    }
 
-        a:hover {
-            text-decoration: underline;
-        }
+  }
 
-        a:active {
-            text-decoration: underline;
-        }
-        .fillerHeaderContainer {
-            position: relative;
-                height: 80px;
-                width: 100%;
-                background-color: maroon;
-                }
+  @media screen and (max-width: 650px),
+  sreen\0 {
+    .navigationBar {
+      font-size: 4.5vw;
+      min-height: 40px;
+    }
 
-        .links
-        {
-          color: white;
-          font-size: 20px;
+    .Buttons {
+      font-size: 14px;
+    }
 
-        }
-        .links:link {
-            text-decoration: none;
-        }
+    .Buttons1 {
+      font-size: 9px;
+    }
 
-        .links:visited {
-            text-decoration: none;
-        }
+    .dropDownContent a {
+      font-size: 12px;
+    }
 
-        .links:hover {
-            text-decoration: underline;
-        }
+    .navigationBar3 {
+      min-height: 30px;
+    }
+  }
 
-        .links:active {
-            text-decoration: underline;
-        }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #f5f5f5
+  }
 
-        footer {
-            background-color: maroon;
-            color: white;
-            text-align: left;
-            padding: 10px;
-            padding-top: 30px;
+  .content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
 
-        }
-
-        .footer
-        {
-
-          left: 0;
-          bottom: 0;
-          width: 100%;
-          height: 60%;
-          background-color: maroon;
-          color: white;
-          text-align: center;
-        }
+  .contents-section {
+    background-color: #f5f5f5;
+    /* border: 1px solid #dddddd; */
+    padding: 0px;
+    border-radius: 3px;
+    padding: 10px
+  }
 
 
+  .blog-footer {
+    bottom: 0;
+    padding: 1rem 0;
+    color: #999;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    /* overflow: hidden; */
+    background-color: #f9f9f9;
+    border-top: .02rem solid #e5e5e5;
+    /* min-height: 400px; */
+    float: left;
+    width: 100%;
+    background-color: rgb(31, 29, 24);
+    /* background-repeat: no-repeat; */
+    /* background-size: 450px; */
+    /* background-position: 110%; */
+    font-family: times;
+  }
+
+  .input-shadow {
+    box-shadow: inset 0 2px 4px 0 hsla(0, 0%, 0%, 0.08);
+  }
+
+  #container {
+    min-height: 100%;
+  }
+
+  /* #body 
+   padding:10px;
+   padding-bottom:70px;   /* Height of the footer 
+} */
+
+  #footer {
+    /* position:absolute; */
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    /* Height of the footer */
+    background-color: #f9f9f9;
+  }
+
+  .shadow {
+    box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2)
+  }
+
+  .headerContainer {
+    position: sticky;
+    height: 90px;
+    width: 100%;
+    background-color: maroon;
+    z-index: 1;
+  }
+
+  /* .btn {
+    box-shadow: 0 4px 6px 0 hsla(0, 0%, 0%, 0.2)
+  } */
+
+  .Logo {
+    border-radius: 1200px;
+    background-color: white;
+    border: 5px maroon solid;
+
+  }
+
+  .header {
+    position: absolute;
+    bottom: 10px;
+    width: 100%
+  }
+
+  a:link {
+    text-decoration: none;
+  }
+
+  a:visited {
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  a:active {
+    text-decoration: underline;
+  }
+
+  .fillerHeaderContainer {
+    position: relative;
+    height: 80px;
+    width: 100%;
+    background-color: maroon;
+  }
+
+  .links {
+    color: white;
+    font-size: 20px;
+
+  }
+
+  .links:link {
+    text-decoration: none;
+  }
+
+  .links:visited {
+    text-decoration: none;
+  }
+
+  .links:hover {
+    text-decoration: underline;
+  }
+
+  .links:active {
+    text-decoration: underline;
+  }
 </style>
 
 <body>
-  <header>
+  <div id="container">
+    <div class="main">
+      <!-- <img src="/static/banner.jpg" class="img-fluid" width="100%" /> -->
+      {% include 'includes/_navbar.html' %}
+      <div class="container">
+        <div class="row mt-4 mb-2" id="body">
+          <div class="contents-section col-sm-12 col-lg-3 mb-2 h-25 shadow" style="background-color: maroon;">
+            <h1 class="h2" style="color: white">Menu
+              <hr class="bg-white">
+            </h1>
 
-  </header>
+            {% if session.logged_in %}
+            <h5>
+              <a href="/" style="color: white;">Home</a>
+            </h5>
+            <div class="">
+              <h5>
+                <a href="/dashboard" style="color: white;">Dashboard</a>
+              </h5>
+            </div>
+            <h5>
+              <a href="/reservations" style="color: white;">Reservations</a>
+            </h5>
 
-  {% include 'includes/_newpageheader.html'%}
+            <!-- <div class="">
+      <a class="col-12 btn btn-outline-danger list-group-item" href="/account">Account</a>
+      <h5>
+      <a href="/dashboard" style="color: white;">Dashboard</a>
+      </h5>
 
-    <br><br><br><br><br><br>
+    </div> -->
 
-
-
-  <div class="container">
-    {% include 'includes/_messages.html' %} {% block body %}{% endblock %}
+            <div>
+              <!-- <a class="col-12 btn btn-outline-danger list-group-item" href="/logout">Logout</a> -->
+              <h5>
+                <a href="/logout" style="color: white;">Logout</a>
+              </h5>
+            </div>
+            {% else %}
+            <div>
+              <h5>
+                <a href="/login" style="color: white;">Students</a>
+              </h5>
+              <h5>
+                <a href="/admin/login" style="color: white;">Administrator</a>
+              </h5>
+            </div>
+            {% endif %}
+          </div>
+          <div class="col-lg-9 col-sm-12 col-md-12" id="body">
+            {% include 'includes/_messages.html' %} {% block body %}{% endblock %}
+          </div>
+        </div>
+      </div>
+      <div id="footer">
+        {% include 'includes/_footer.html' %}
+      </div>
+    </div>
   </div>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdebtnvr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <script type="text/javascript" src="https://fullcalendar.io/releases/fullcalendar/3.9.0/lib/jquery.min.js"></script>
+  <script type="text/javascript" src="https://fullcalendar.io/releases/fullcalendar/3.9.0/lib/moment.min.js"></script>
+  <script type="text/javascript" src="https://fullcalendar.io/releases/fullcalendar/3.9.0/fullcalendar.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/timepicker@1.11.12/jquery.timepicker.min.js"></script>
+  <script>
+//     $('#basicExample').timepicker({
+//     'minTime': '7:30am',
+//     'maxTime': '5:00pm',
+//     'disableTextInput' : true,
+//     'timeFormat' : 'G:i:s'
 
-  <div class="footer">
-    <br>
-    <p style=" padding: 5px;"><a href="/admin_login" style="color: white">  Administrator</a></p>
-    <p style="color: white;  padding: 5px;"><a href="/devs" style="color: white">  About Us</a></p>
-  </div>
+// });
+    $('#calendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+    
+      eventLimit: true,
+      eventColor: '#800000',
+      eventTextColor: '#ffffff', 
+      events: {
+        url: 'data'
+      },
+      eventMouseover: function(calEvent, jsEvent) {
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    var tooltip = '<div class="tooltipevent p-2" style="border-radius: 10px;padding: 2px; width:auto;height:auto;background:maroon;color:#ffffff;position:absolute;z-index:10001;">Reservation: '+ calEvent.title + '<br>Time: '+calEvent.data.timefrom+'-'+calEvent.data.timeto + '</div>';
+    var $tooltip = $(tooltip).appendTo('body');
 
+    $(this).mouseover(function(e) {
+        $(this).css('z-index', 10000);
+        $tooltip.fadeIn('500');
+        $tooltip.fadeTo('10', 1.9);
+    }).mousemove(function(e) {
+        $tooltip.css('top', e.pageY + 10);
+        $tooltip.css('left', e.pageX + 20);
+    });
+},
 
+eventMouseout: function(calEvent, jsEvent) {
+    $(this).css('z-index', 8);
+    $('.tooltipevent').remove();
+},
+ 
+    //   eventRender: function(eventObj, element) {
+    //   element.popover({
+    //     title: eventObj.title,
+    //     content: 'test',
+    //     trigger: 'hover',
+    //     placement: 'top',
+    //     container: 'body'
+    //   });
+    // },
+    });
+    // for create reservation
+  let purpose = document.getElementById('purpose');
+  let prof = document.getElementById('prof');
+  let input = document.getElementById('test');
+  const change = document.getElementById('changee')
+  const newSelect = document.createElement('select');
+  newSelect.id = 'test';
+  newSelect.name = 'test';
+  newSelect.classList = 'form-control';
+
+  options = ['--','Student Assembly','Governing League of IT Challengers(GLITCH)','Junior Philippine Institute of Accountants(JPIA)','JFINEX','CEO',"Young Educator's Society(YES)",'HM Society','Paraseist'];
+  options.sort();
+  options.forEach((option) => {
+    optionss = document.createElement('option');
+    optionss.innerHTML = option;
+    newSelect.appendChild(optionss);
+  });
+
+  purpose.onchange = function(){
+  val = purpose.value;
+  // alert(val);
+  
+  if(val === 'Academic'){
+    prof.innerHTML = "<h5> Professor </h5>"
+    change.replaceChild(input,newSelect);
+    
+  } else {
+    prof.innerHTML = "<h5> Organization </h5>";
+    change.replaceChild(newSelect,input); 
+  }
+  
+}
+  </script>
+
+  <script>
+    feather.replace()
+  </script>
+  <!-- <script>
+      document.addEventListener('DOMContentLoaded',function() {
+    document.querySelector('select[name="purpose"]').onchange=changeEventHandler;
+},false);
+
+function changeEventHandler(event) {
+    // You can use “this” to refer to the selected element.
+    if(!event.target.value) alert('Please Select One');
+    else alert('You like ' + event.target.value + ' ice cream.');
+
+    if(event.target.value == 'Academic') {
+      var theForm = document.getElementsByTagName("form");  
+      var divProf = document.createElement("div");
+      divProf.className = 'form-group';
+      var inputProf = document.createElement("input");
+      inputProf.className = 'form-control'
+      divProf.appendChild(inputProf);
+      theForm.appendChild(divProf);
+    }
+}
+  </script> -->
 </body>
+
 </html>

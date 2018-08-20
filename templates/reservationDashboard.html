@@ -1,0 +1,129 @@
+{% extends 'admin_layout.html'%}
+{% block body  %}
+<header id="main-header" class="py-2 bg-danger text-white mb-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1><i data-feather="archive"></i> Reservations</h1>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  {% include 'includes/_messages.html' %}
+<div class="card">
+  <div class="card-header">
+    <h4>Latest Reservations
+    </h4>
+
+  </div>
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>Reservation</th>
+      <th>Purpose</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    {% for res in reservations.items %}
+    <tr>
+      <!-- <td>{{res.firstName}} {{res.lastName}}</td> -->
+      <td>{{res.studentNumber}}</td>
+      {% if res.facility_name == '--' %}
+      <td>{{res.equipment_name}}</td>
+      {% elif res.equipment_name == '--' %}
+      <td>{{res.facility_name}}</td>
+      {% else %}
+      <td>{{res.equipment_name}} & {{res.facility_name}}</td>
+      {% endif %}
+      <td>{{res.purpose}}</td>
+      <td>{{res.dateFrom.strftime('%B %d %Y')}}</td>
+      <td>{{res.timeFrom.strftime('%I:%M%p')}}-{{res.timeTo.strftime('%I:%M%p')}}</td>
+      {% if res.claimed_at == ' ' %}
+      <td> </td>
+      {% elif res.claimed_at != ' ' %}
+      <td>{{res.claimed_at}}</td>
+      {% elif res.claimed_at != ' ' and res.returned_at != ' ' %}
+      <td>
+        {{res.claimed_at}}/{{res.returned_at}}
+      </td>
+      {% endif %}
+      {% if res.res_status == 'Active' %}
+      <td> <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-ng-href="reservations/dashboard/{{res.id}}/cancel">Cancel</button>
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Cancel Reservation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <p>Cancel this Reservation?</p>
+                </div>  
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                <form action="{{ url_for('adminCancelReservation', res_id=res.id) }}" method="POST">
+                  <input class="btn btn-danger" type="submit" value="Cancel">
+                </form>
+              </div>
+            </div>
+          </div>
+        </td>
+        {% else %}
+        <td></td>
+        {% endif %}
+
+        {% if res.res_status == "Canceled" %}
+        <td> </td>
+        {% else %}
+        {% if res.dateFrom|string == todayy  %}
+        
+        
+         {% if res.returned_at != " " %}
+         <td> </td>
+         {% else %}
+          {% if res.claimed_at == " " %}
+        <td> 
+          <form action="{{ url_for('addTime', res_id=res.id) }}" method="POST">
+            <input class="btn btn-primary btn-sm" type="submit" value="Claimed">
+          </form>
+        </td>
+          {% else %}
+        <td> 
+          <form action="{{ url_for('addTime', res_id=res.id) }}" method="POST">
+            <input class="btn btn-success btn-sm" type="submit" value="Returned">
+          </form>
+        </td>
+          {% endif %}
+          {% endif %}
+
+        {% else %}
+        <td> </td>
+        {% endif %}
+        {% endif %}
+    </tr>
+    {% endfor%}
+  </table>
+  </div>
+  {% for page_num in reservations.iter_pages() %}
+  {% if page_num %}
+    {% if reservations.page == page_num%}
+      <a class="btn btn-danger mb-4 mt-4" href="{{url_for('resDashboard', page=page_num) }}">{{ page_num}}</a>
+    {% else %}
+      <a class="btn btn-outline-danger mt-4 mb-4" href="{{url_for('resDashboard', page=page_num) }}">{{ page_num}}</a>
+    {% endif %}
+  {% else %}
+  ...
+  {% endif %}
+  {% endfor %}
+</div>
+
+
+
+{% endblock %}

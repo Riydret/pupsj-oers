@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+  <title>PDF</title>
+  <style media="screen">
+    p{
+      font-size:20px;
+    }
+  </style>
+</head>
+<body>
+  <br>
+  <br>
+  <br>
+  <p>{{today}}</p>
+  <br>
+  <p>
+    Prof. Jaime P. Gutierrez, Jr. <br> Director <br> This Campus
+  </p>
+  <p style="text-align:center">
+    Thru: Sir Joebert
+    <br> Technical Officer
+  </p>
+  <br>
+  <p style="font-size:20px">
+    In behalf of the class, {{ session.courseSection }} would like to reserve the {{ equipment }}
+    and {{facility}} for our {{ purpose }} at {{resFrom}} {{resTime}} to {{resTo}}.
+    <br><br>
+    We are hoping for your most positive and soonest response.
+    <br><br>
+    Thank you and God Bless.
+    <br><br>
+    Respectfully yours,
+  </p>
+  <br>
+  <p>
+    {{ session.firstName }} {{session.lastName}}
+    <br>
+    Representative
+  </p>
+
+
+
+
+</body>
+</html>
